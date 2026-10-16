@@ -1,0 +1,85 @@
+/** `GET /projects`, shaped by the OpenAPI document. Values are illustrative. */
+export const projectList = {
+  total: 2,
+  projects: [
+    {
+      id: 123,
+      brand_name: 'Acme Running',
+      brand_website: 'https://acme-running.com',
+      status: 'ready',
+      country: 'us',
+      language: 'en',
+      selected_ai_models: ['chatgpt', 'perplexity', 'ai_overviews'],
+      last_checked_at: '2026-10-15T04:12:00+00:00',
+      connections: { ga4: true, google_search_console: true, bing_webmaster_tools: false },
+      connected_data: {
+        ga4: { latest_fetched_at: '2026-10-16T01:20:00+00:00', is_stale: false },
+        google_search_console: { latest_fetched_at: '2026-10-16T01:21:00+00:00', is_stale: false },
+        bing_webmaster_tools: { latest_fetched_at: null, is_stale: null, needs_reauth: false },
+      },
+      data_availability: {
+        metrics: true,
+        metrics_fetched_at: '2026-10-15T04:12:00+00:00',
+        latest_check_date: '2026-10-15',
+        topics: 5,
+        prompts: 6,
+        mentions: 540,
+        answer_insights: 531,
+        competitor_snapshots: 3,
+        top_site_snapshots: 3,
+        trust_mentions: 0,
+        recommendations: 2,
+        ga4_snapshots: 3,
+        search_performance_snapshots: 3,
+      },
+    },
+    {
+      id: 456,
+      brand_name: 'Globex Footwear',
+      brand_website: 'https://globex-footwear.example',
+      status: 'ready',
+      country: 'de',
+      language: 'de',
+      selected_ai_models: ['chatgpt', 'perplexity', 'ai_overviews'],
+      last_checked_at: '2026-10-14T04:05:00+00:00',
+      connections: { ga4: false, google_search_console: false, bing_webmaster_tools: false },
+      connected_data: {
+        ga4: { latest_fetched_at: null, is_stale: null },
+        google_search_console: { latest_fetched_at: null, is_stale: null },
+        bing_webmaster_tools: { latest_fetched_at: null, is_stale: null, needs_reauth: false },
+      },
+      data_availability: {
+        metrics: true,
+        metrics_fetched_at: '2026-10-14T04:05:00+00:00',
+        latest_check_date: '2026-10-14',
+        topics: 3,
+        prompts: 2,
+        mentions: 96,
+        answer_insights: 90,
+        competitor_snapshots: 2,
+        top_site_snapshots: 2,
+        trust_mentions: 0,
+        recommendations: 1,
+        ga4_snapshots: 0,
+        search_performance_snapshots: 0,
+      },
+    },
+  ],
+};
+
+export const reportPeriod = {
+  key: 'last_30_days',
+  requested: 'last_30_days',
+  start: '2026-09-16',
+  end: '2026-10-15',
+  days: 30,
+  anchored_to_latest_check: '2026-10-15',
+  available_periods: ['last_30_days', 'last_60_days', 'last_90_days', 'this_year', 'last_year'],
+};
+
+export const projectStub = {
+  id: 123,
+  brand_name: 'Acme Running',
+  brand_website: 'https://acme-running.com',
+  status: 'ready',
+};
