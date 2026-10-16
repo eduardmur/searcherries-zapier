@@ -43,7 +43,7 @@ npx zapier-platform push             # builds, uploads version 1.0.0, runs the s
 
 The push output lists the integration checks. `npm run validate` covers the structural part only; the D-checks (labels, samples, help text, dynamic dropdowns) run here for the first time. Fix anything flagged, bump nothing (the version is still unpublished), push again.
 
-In the Platform UI (<https://developer.zapier.com> → Searcherries → Authentication) connect a Searcherries account with a personal access token (check A001 needs at least one connected account). The connection label should read like `Acme Running + 1 more project`.
+Upload the logo in the Platform UI (<https://developer.zapier.com> → Searcherries → Settings → logo: `assets/logo-256.png`); check M004 "logo is missing" stays until you do. Then connect a Searcherries account with a personal access token (check A001 needs at least one connected account). The connection label should read like `Acme Running + 1 more project`.
 
 ## 3. Test Zaps (checks S002, T001, T004, T005)
 
@@ -59,7 +59,7 @@ Use the default dataset/period on every search in these Zaps: Zapier compares th
 
 Map the trigger's *Project ID* into each search's *Project* field (custom value) so the Zap works for any project. Check the Monitoring page for unhandled errors before submitting.
 
-The checks reference also lists **S001**, "at least 3 users must have a live Zap"; the publishing requirements page states no user threshold. If S001 blocks the submission, invite two more Zapier accounts to the private version (`npx zapier-platform users:add <email> 1.0.0`) and let them turn on a Zap each.
+**S001 is a real blocker** (the first `validate` after registration reported "must have at least 3 users with live Zaps, currently has 0", even though the publishing requirements page names no threshold). Invite two more Zapier accounts to the private version (`npx zapier-platform users:add <email> 1.0.0`, colleagues or a second account of yours) and let each turn on one Zap that uses the integration.
 
 ## 4. Invite the reviewer and submit
 

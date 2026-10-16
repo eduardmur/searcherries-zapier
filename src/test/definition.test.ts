@@ -27,7 +27,7 @@ function plainFields(fields: unknown[] | undefined): PlainInputField[] {
   return (fields ?? []).filter((field): field is PlainInputField => typeof field === 'object' && field !== null);
 }
 
-function resolvePath(sample: unknown, key: string): unknown {
+function resolveNested(sample: unknown, key: string): unknown {
   return key.split('__').reduce<unknown>((value, part) => {
     if (value === null || typeof value !== 'object') {
       return undefined;
@@ -36,19 +36,28 @@ function resolvePath(sample: unknown, key: string): unknown {
   }, sample);
 }
 
+/** Zapier keys: `parent__child` for nested objects, `parent[]child` for line items (resolved on the first item). */
+function resolvePath(sample: unknown, key: string): unknown {
+  const [arrayKey, childKey] = key.split('[]');
+  if (childKey === undefined) {
+    return resolveNested(sample, key);
+  }
+  const items = resolveNested(sample, arrayKey!);
+  if (!Array.isArray(items) || items.length === 0) {
+    return undefined;
+  }
+  return resolveNested(items[0], childKey);
+}
+
 function expectOutputFieldsMatch(sample: Record<string, unknown>, fields: PlainOutputField[], where: string): void {
   for (const field of fields) {
     const value = resolvePath(sample, field.key);
     expect(value, `${where}: ${field.key} missing from the sample`).not.toBeUndefined();
     expect(value, `${where}: ${field.key} is null in the sample`).not.toBeNull();
-    if (field.children) {
-      expect(Array.isArray(value), `${where}: ${field.key} should be an array of objects`).toBe(true);
-      expectOutputFieldsMatch((value as Record<string, unknown>[])[0]!, field.children as PlainOutputField[], `${where}.${field.key}`);
-      continue;
-    }
     const expectedType = field.type === 'integer' || field.type === 'number' ? 'number' : field.type === 'boolean' ? 'boolean' : 'string';
     const values = field.list ? (value as unknown[]) : [value];
     expect(Array.isArray(value), `${where}: ${field.key} list flag`).toBe(Boolean(field.list));
+    expect(field.children, `${where}: ${field.key} children are for input fields; use parent[]child keys`).toBeUndefined();
     for (const item of values) {
       expect(typeof item, `${where}: ${field.key} should be ${expectedType}`).toBe(expectedType);
       if (field.type === 'integer') {

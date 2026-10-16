@@ -73,6 +73,8 @@ assets/                logo-256.png and logo-512.png (RGBA) rendered from the Se
 
 - Input field keys are the API parameter names (`period`, `dataset`, `prompt_id`, …); `project_id` is the project dropdown.
 - Samples only contain keys the API returns on every call of that endpoint (Zapier compares them with live runs) and no credentials.
+- Output fields use Zapier's key notation: `parent__child` for nested objects and `parent[]child` for line items (`children` is for input fields only; check D024 flags it on outputs).
+- `flags.cleanInputData` is off (check D028): empty strings and nulls reach the perform functions and are dropped by `toQueryParams` / `toInteger`.
 - `src/test/definition.test.ts` re-checks the conventions Zapier enforces at publish time: title-case labels, "Triggers when … ." descriptions, a required search field per search, output fields present in the sample with the declared type, dynamic dropdowns pointing at hidden triggers, no credential-like input keys.
 
 ### Releasing a new version

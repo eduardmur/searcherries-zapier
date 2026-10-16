@@ -22,6 +22,8 @@ export default defineApp({
   platformVersion: zapier.version,
 
   authentication,
+  // Empty strings and nulls are handled in the perform functions (Zapier check D028).
+  flags: { cleanInputData: false },
   beforeRequest: [...befores],
   afterResponse: [...afters],
 
